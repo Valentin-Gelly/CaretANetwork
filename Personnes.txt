@@ -1,0 +1,5 @@
+12 Albert 0 BD 500 DA
+12 Bob 0 BC 500 CB
+12 Charles 0 BC 500 CB
+12 Damien 0 EA 600 AE
+45 Edouard 0 AC 300 CA
