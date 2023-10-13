@@ -9,7 +9,7 @@ from Classes.people import People
 from Classes.travel import Travel
 
 listeBus = []
-testBus = Bus(10, 1, [1, 30], 'BACECA')
+testBus = Bus(10,  1, [1, 30], 'BACECA')
 listeBus.append(testBus)
 testBus = Bus(10, 1, [1, 30], 'DCEC')
 listeBus.append(testBus)
@@ -29,7 +29,6 @@ listeStop.append(Stop('B'))
 listeStop.append(Stop('C'))
 listeStop.append(Stop('D'))
 listeStop.append(Stop('E'))
-
 
 def recupDonnee(nameFile):
     listePeople = []
@@ -64,7 +63,6 @@ while True:
     except ValueError:
         print("Le fichier n'est pas au bon format")
 
-
 def getIndexStop(nameStop):
     for stop in listeStop:
         if stop.startRoads == nameStop:
@@ -74,12 +72,25 @@ def getIndexStop(nameStop):
 listeThread = []
 print(listeStop[1].startRoads)
 
-for bus in listeBus:
-    if len(bus.getPosition()) == 1 and listeStop[
-        getIndexStop(bus.getPosition())].getWaitingQueue() != [] and bus.getNbPersonnes() != bus.nbPlace:
-        print(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0])
-        bus.remplirUnePersonne(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0])
-        listeStop[getIndexStop(bus.getPosition())].removePeople(
-            listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0])
-    print('le bus ' + bus.getTravel().__str__() + ' : ' + bus.getPosition() + ' , ' + str(
-        bus.getNbPersonnes()) + ' , ' + bus.getPeople().__str__())
+def fillBus(bus,x):
+    try:
+        if bus.travel.index(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageAller.travel[1]):
+            print(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].nom + ' trajet  : ' +
+                  listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageAller.travel)
+            bus.remplirUnePersonne(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0])
+            listeStop[getIndexStop(bus.getPosition())].removePeople(
+                listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0])
+            print('le bus n°' + str(x + 1) + ', au niveau de  : ' + bus.getPosition() + ', a  ' + str(
+                bus.getNbPersonnes()) + ' passagé(e)(s)')
+
+    except ValueError:
+        null = 0
+
+
+
+
+for x,bus in enumerate(listeBus):
+    print(bus.travel)
+    if len(bus.getPosition()) == 1 and listeStop[getIndexStop(bus.getPosition())].getWaitingQueue() != [] and bus.getNbPersonnes() != bus.nbPlace:
+        for i in range(bus.getnbPlaces() - bus.getNbPersonnes()) :
+            fillBus(bus,x)

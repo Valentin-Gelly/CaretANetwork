@@ -37,7 +37,7 @@ class Bus:
         return self.travel
 
     def remplirUnePersonne(self, personne):
-        if self.nbPersonnes != self.nbPersonnes:
+        if self.nbPersonnes != self.nbPlace:
             self.nbPersonnes += 1
             self.listePeople.append(personne)
         else:
@@ -77,3 +77,9 @@ class Bus:
 
     def addPeople(self, people):
         self.listePeople.append(people)
+
+    def isNotFull(self):
+        return self.nbPersonnes != self.nbPlace
+
+    def getnbPlaces(self):
+        return self.nbPlace
