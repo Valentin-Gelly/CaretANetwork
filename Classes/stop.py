@@ -35,6 +35,6 @@ class Stop :
     def getStopState(self):
         text = ""
         for people in self.waitingQueue:
-            text += people.getNom() + ", "
+            text += people.getNom() + " (travel = "+ str(people.voyageActuel)+")"
 
         print("Arret : ", self.startRoads, " qui a une queue de ", self.getNbPeople(), " personnes : ", text)

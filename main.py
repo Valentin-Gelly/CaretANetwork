@@ -140,7 +140,8 @@ def getIndexStop(nameStop):
 
 def fillBus(bus, x):
     try:
-        if bus.travel.index(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.travel[1]) and  int(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.hour) <= horloge:
+        print(bus.travel.index(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.travel[1]), 'and',  int(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.hour))
+        if bus.travel.index(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.travel[1]) !=-1 and  int(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.hour) <= horloge:
             # print(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].nom + ' trajet  : ' +listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageAller.travel)
             print('le bus n°' + str(x + 1) + ', au niveau de  : ' + bus.getPosition() + ', a  ' + str(
                 bus.getNbPersonnes()) + ' passagé(e)(s) : ', bus.remplirUnePersonne(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0]).nom)
@@ -162,7 +163,6 @@ def unFillBus(bus, x):
             for people in bus.getPeople():
                 if people.voyageActuel.getTravel()[1]==bus.getPosition():
                     bus.viderUnePersonne(people)
-
                     people.changeVoyageActuel()
                     listeStop[getIndexStop(bus.getPosition())].addPeople(people)
                     print('le bus n°' + str(x + 1) + ', au niveau de  : ' + bus.getPosition() + ', a  ' + str(
@@ -223,6 +223,11 @@ def busIsInStop(bus, x):
 
     elif len(bus.getPosition()) == 1 and listeStop[getIndexStop(bus.getPosition())].getWaitingQueue() != [] and bus.getNbPersonnes() != bus.nbPlace and peopleWantTakeBus(bus, x):
         print("Le bus n°" + str(x + 1) + " n'est pas complet et il y a des personnes à l'arrêt " + bus.getPosition())
+        print(bus.allStepRaod)
+        text = ""
+        for people in listeStop[getIndexStop(bus.getPosition())].getWaitingQueue() :
+            text+= str(people.voyageActuel)+", "
+        print(text)
         fillBus(bus, x)
 
     #
@@ -290,7 +295,6 @@ def busIsInStop(bus, x):
         else:
             print("Le bus n°" + str(x + 1) + " est au niveau de l'arret " + bus.getPosition()[1])
             bus.distanceFromNextStop = 0
-
             bus.setPosition(bus.getPosition()[1])
             for people in bus.getPeople():
                 people.setPosition(bus.getPosition())

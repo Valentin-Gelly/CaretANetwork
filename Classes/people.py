@@ -33,8 +33,6 @@ class People:
     def changeVoyageActuel(self):
         if self.voyageActuel == self.voyageAller:
             self.voyageActuel = self.voyageRetour
-        else:
-            self.voyageActuel = self.voyageAller
 
 
 
