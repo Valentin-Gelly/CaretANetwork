@@ -7,3 +7,8 @@ class Travel:
     def __str__(self):
         return ''+self.hour + ' '+ self.travel
 
+    def getHour(self):
+        return self.hour
+
+    def getTravel(self):
+        return self.travel

@@ -5,6 +5,7 @@ class People:
     def __init__(self, voyageAller:Travel, voyageRetour:Travel, nom):
         self.voyageAller=voyageAller
         self.voyageRetour=voyageRetour
+        self.voyageActuel = voyageAller
         self.nom = nom
         self.position = voyageAller.travel[0]
 
@@ -29,7 +30,11 @@ class People:
     def getVoyage(self):
         return self.voyageAller.travel + self.voyageRetour.travel
 
-
+    def changeVoyageActuel(self):
+        if self.voyageActuel == self.voyageAller:
+            self.voyageActuel = self.voyageRetour
+        else:
+            self.voyageActuel = self.voyageAller
 
 
 

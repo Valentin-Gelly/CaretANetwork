@@ -23,5 +23,18 @@ class Stop :
     def getPeople(self):
         return self.waitingQueue
 
+    def getNbPeople(self):
+        return len(self.waitingQueue)
 
+    def getAllPeopleInStop(self):
+        text=""
+        for people in self.waitingQueue:
+            text+=people.getNom()+", "
+        return text
 
+    def getStopState(self):
+        text = ""
+        for people in self.waitingQueue:
+            text += people.getNom() + ", "
+
+        print("Arret : ", self.startRoads, " qui a une queue de ", self.getNbPeople(), " personnes : ", text)
