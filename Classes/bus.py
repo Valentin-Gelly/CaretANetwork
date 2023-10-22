@@ -121,11 +121,17 @@ class Bus:
             text+=people.getNom()+", "
         return text
 
-    def getStateBus(self):
+    def getIndexRoad(self, start, stop, dicRoad) -> Road:
+        if start in dicRoad:
+            for road in dicRoad[start]:
+                if stop in road:
+                    return road[stop]
+
+    def getStateBus(self, disctionnaireStop):
         text = ""
         for people in self.listePeople:
             text += people.getNom() + ", "
         if len(self.position)!=1 :
-            print( "Bus de la ligne ", self.getStrTravel(), " qui est à la route ", self.getPosition(), " avec ", self.getNbPersonnes(), " personnes : ", text)
+            print( "Bus de la ligne ", self.getStrTravel(), " qui est sur la route ", self.getPosition(), " ",str(self.getDistanceFromNextStop()),"parcouru sur ", self.getIndexRoad(self.getPosition()[0],self.getPosition()[1], disctionnaireStop),"  avec ", self.getNbPersonnes(), " personnes : ", text)
         else:
             print("Bus de la ligne ", self.getStrTravel(), " qui est à l'arrêt ", self.getPosition(), " avec ", self.getNbPersonnes(), " personnes : ", text)
