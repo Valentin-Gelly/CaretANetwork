@@ -30,7 +30,7 @@ for road in listeRoute:
         dicRoad[road.stop].append({road.start: road.distance})
 
 dicRoad2 = dicRoad
-print('dic2', dicRoad2)
+#print('dic2', dicRoad2)
 
 listeBus = []
 listeBus.append(Bus(10, 1, [1, 30], 'BACECA'))
@@ -66,6 +66,10 @@ def recupDonnee(nameFile):
         depart = people.voyageAller.travel[0]
         arretDepart = lettreStop.index(depart)
         listeStop[arretDepart].addPeople(people)
+
+
+
+
     return listePeople
 
 
@@ -78,7 +82,17 @@ while True:
         print("Le fichier n'existe pas")
     except ValueError:
         print("Le fichier n'est pas au bon format")
+    except PermissionError :
+        print("Vous n'avez pas les droits pour lire ce fichier")
+    except IOError :
+        print("Le fichier est introuvable")
 
+
+
+
+#
+# Permet la route entre les deux arret
+# complexité : O(n)
 
 def getIndexRoad(start, stop) -> Road:
     if start in dicRoad:
@@ -130,19 +144,24 @@ for y, bus in enumerate(listeBus):
             for step in listeEtape:
                 bus.allStepRaod.append(step)
                 bus.nbStep += 1
-    print(bus.getStrTravel(), "bus.allStepRaod ", bus.allStepRaod, ' nbStep : ', bus.nbStep)
+    #print(bus.getStrTravel(), "bus.allStepRaod ", bus.allStepRaod, ' nbStep : ', bus.nbStep)
 
-
+#
+# Permet de savoir la distance entre deux arret
+# complexité : O(n)
 def getIndexStop(nameStop):
     for stop in listeStop:
         if stop.startRoads == nameStop:
             return listeStop.index(stop)
 
+#
+# Permet de faire monter quelqu'un dans un bus
+# complexité : O(1)
 
 def fillBus(bus, x):
     try:
-        print(bus.travel.index(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.travel[1]),
-              'and', int(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.hour))
+        #print(bus.travel.index(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.travel[1]),
+        #      'and', int(listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.hour))
         if bus.travel.index(
                 listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.travel[1]) != -1 and int(
                 listeStop[getIndexStop(bus.getPosition())].getWaitingQueue()[0].voyageActuel.hour) <= horloge:
@@ -159,7 +178,9 @@ def fillBus(bus, x):
     except ValueError:
         null = 0
 
-
+#
+# Permet de faire descendre quelqu'un d'un bus
+# complexité : O(n)
 def unFillBus(bus, x):
     try:
         if len(bus.getPeople()) > 0:
@@ -178,7 +199,9 @@ def unFillBus(bus, x):
     except ValueError:
         null = 0
 
-
+#
+# permety de savoir si une personne souhaite prendre le bus
+# complexité : O(n)
 def peopleWantTakeBus(bus, x):
     try:
         if listeStop[getIndexStop(bus.getPosition())].getWaitingQueue() != []:
@@ -192,7 +215,9 @@ def peopleWantTakeBus(bus, x):
     except IndexError:
         null = 0
 
-
+#
+# Permet de savoir si quelqu'un veut descendre du bus
+# complexité : O(n)
 def peopleWantTakeDown(bus, x):
     try:
         if bus.getPeople():
@@ -204,6 +229,11 @@ def peopleWantTakeDown(bus, x):
     except IndexError:
         null = 0
 
+#
+# Fonction Principale :
+#   Permet de faire circuler les bus
+#   Permet de faire toutes les vérifications nécessaire pour faire monter, descendre, rester un passager dans le bus
+#   complexité : O(n)
 
 def busIsInStop(bus, x):
     #
@@ -234,7 +264,7 @@ def busIsInStop(bus, x):
         text = ""
         for people in listeStop[getIndexStop(bus.getPosition())].getWaitingQueue():
             text += str(people.voyageActuel) + ", "
-        print(text)
+
         fillBus(bus, x)
 
     #
@@ -277,7 +307,12 @@ def busIsInStop(bus, x):
     elif len(bus.getPosition()) == 2 and bus.distanceFromNextStop != getIndexRoad(bus.getPosition()[0],
                                                                                   bus.getPosition()[1]):
         # print("Le bus n°" + str(x + 1) + " est au niveau de " + bus.getPosition() + " et est à " + str(bus.getDistanceFromNextStop()),"/",getIndexRoad(bus.getPosition()[0],bus.getPosition()[1]))
-        bus.distanceFromNextStop += bus.speedMetter
+        if bus.timeInStep == bus.speedTime:
+            bus.timeInStep = 0
+            bus.distanceFromNextStop += bus.speedMetter
+        else :
+            bus.timeInStep += 1
+
 
     #
     # le bus est au niveau de l'arrêt suivant soit il est au terminus soit il est juste à un arret
@@ -313,18 +348,17 @@ def busIsInStop(bus, x):
                 unFillBus(bus, x)
 
 
-horloge = 0
+#
+# Boucle permettant de faire tourner le programme
+
+horloge = 1
 
 while True:
     print("--------------------------------------------------")
     print("tempo : ", horloge)
     for x, bus in enumerate(listeBus):
-        if bus.speedTime == 30:
-            if bus.speedTime % 30 == 0:
-                busIsInStop(bus, x)
-        else:
-            if bus.speedTime % 10 == 0:
-                busIsInStop(bus, x)
+        busIsInStop(bus, x)
+
     horloge += 1
     print('\n')
     print('\n')
@@ -337,3 +371,4 @@ while True:
 
     print("--------------------------------------------------")
     print('\n')
+    time.sleep(1)

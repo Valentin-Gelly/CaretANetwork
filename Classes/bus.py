@@ -24,7 +24,7 @@ class Bus:
         self.retour = False
         self.stepPassed = []
         self.nbStep = 0
-
+        self.timeInStep = 0
 
     def __str__(self):
         return 'bus de ' + str(

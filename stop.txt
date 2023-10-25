@@ -1,0 +1,5 @@
+Arrêt A B 10M
+Arrêt A C 4M
+Arrêt C D 12M
+Arrêt E C 4M
+Arrêt E D 13M
