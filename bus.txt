@@ -1,8 +1,8 @@
-17 Bus double
-Capacité 10
+17 Bus Double
+Capacite 10
 Charge 1
 Vitesse 1M 30
 6 Bus Moto
-Capacité 3
+Capacite 3
 Charge 2
 Vitesse 10M 20

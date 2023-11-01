@@ -25,6 +25,7 @@ class Bus:
         self.stepPassed = []
         self.nbStep = 0
         self.timeInStep = 0
+        self.typeBus=''
 
     def __str__(self):
         return 'bus de ' + str(
@@ -59,14 +60,10 @@ class Bus:
             print("Le bus est plein")
 
     def viderUnePersonne(self, people):
-        if self.nbPersonnes != 0:
-            if people.voyageActuel.getTravel()[1] == self.getPosition():
-                self.nbPersonnes -= 1
-                self.listePeople.remove(people)
-                time.sleep(1)
-                return people
-        else:
-            print("Le bus est vide")
+        self.nbPersonnes -= 1
+        self.listePeople.remove(people)
+        return people
+
 
     def getPosition(self):
         return self.position
@@ -105,6 +102,7 @@ class Bus:
     def getNextStep(self):
         for step in self.allStepRaod[len(self.stepPassed):]:
             if step[0] == self.position:
+
                 return step
 
 
@@ -127,11 +125,19 @@ class Bus:
                 if stop in road:
                     return road[stop]
 
-    def getStateBus(self, disctionnaireStop):
+    def settypeBus(self, type):
+        self.typeBus = type
+
+    def getTravelBus(self,x ):
+        print( 'Bus',x,' : ', self.getStrTravel())
+
+    def getStateBus(self, disctionnaireStop, x):
         text = ""
         for people in self.listePeople:
-            text += people.getNom() + ", "
+            text += people.getNom() +", "
         if len(self.position)!=1 :
-            print( "Bus de la ligne ", self.getStrTravel(), " qui est sur la route ", self.getPosition(), " ",str(self.getDistanceFromNextStop()),"parcouru sur ", self.getIndexRoad(self.getPosition()[0],self.getPosition()[1], disctionnaireStop),"  avec ", self.getNbPersonnes(), " personnes : ", text)
+            print( "Bus n°",x, self.typeBus ," de la ligne ", self.getStrTravel(), " qui est sur la route ", self.getPosition(), " ",str(self.getDistanceFromNextStop())," parcouru sur ", self.getIndexRoad(self.getPosition()[0],self.getPosition()[1], disctionnaireStop),"  avec ", self.getNbPersonnes(), " personnes : ", text)
+            return "Bus n°"+str(x)+" "+ self.typeBus +" de la ligne "+ self.getStrTravel()+ " qui est sur la route "+ self.getPosition()+ " "+str(self.getDistanceFromNextStop())+" parcouru sur "+ str(self.getIndexRoad(self.getPosition()[0],self.getPosition()[1], disctionnaireStop))+"  avec ,"+ str(self.getNbPersonnes()) +" personnes : "+ text + "\n"
         else:
-            print("Bus de la ligne ", self.getStrTravel(), " qui est à l'arrêt ", self.getPosition(), " avec ", self.getNbPersonnes(), " personnes : ", text)
+            print("Bus n°",x, self.typeBus +" de la ligne ", self.getStrTravel(), " qui est à l arret ", self.getPosition(), " avec ", self.getNbPersonnes(), " personnes : ", text)
+            return "Bus n°"+str(x)+" "+ self.typeBus +" de la ligne "+ self.getStrTravel()+ " qui est à l arret "+ self.getPosition()+ " avec "+ str(self.getNbPersonnes())+ " personnes : "+ text +"\n"

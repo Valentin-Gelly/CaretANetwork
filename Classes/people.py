@@ -8,7 +8,14 @@ class People:
         self.voyageActuel = voyageAller
         self.nom = nom
         self.position = voyageAller.travel[0]
-
+        self.Firsttravel = []
+        self.firsttravelStep = []
+        self.Secondtravel = []
+        self.secondtravelStep = []
+        self.actualStep = ""
+        self.nextStep = ""
+        self.nbStep = 0
+        self.tempsAttente = 0
     def __str__(self):
         return self.nom +' '+ self.voyageAller.__str__() + ' ' + self.voyageRetour.__str__()
 
@@ -33,6 +40,9 @@ class People:
     def changeVoyageActuel(self):
         if self.voyageActuel == self.voyageAller:
             self.voyageActuel = self.voyageRetour
+            return True
+        else :
+            return False
 
-
-
+    def getTempsAttente(self):
+        return self.tempsAttente
